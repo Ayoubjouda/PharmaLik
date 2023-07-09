@@ -5,6 +5,9 @@
       "bundler": "metro"
     },
     "name": "pharmaLik",
-    "slug": "pharmaLik"
+    "slug": "pharmaLik",
+    "plugins": [
+      "expo-router"
+    ]
   }
 }
