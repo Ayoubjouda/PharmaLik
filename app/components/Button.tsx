@@ -3,6 +3,7 @@ import {
   TouchableOpacity,
   TouchableOpacityProps,
   ActivityIndicator,
+  View,
 } from 'react-native';
 import React, { FC } from 'react';
 import { cva, VariantProps } from 'class-variance-authority';
@@ -15,27 +16,30 @@ interface ButtonProps
 }
 
 const buttonVariants = cva(
-  `active:scale-95 bg-transparent flex flex-row items-center justify-center rounded-md transition-colors focus:outline-none`,
+  `active:scale-95 bg-transparent flex flex-row items-center justify-center rounded-xl transition-colors focus:outline-none`,
   {
     variants: {
       variant: {
         default: 'bg-transparent',
-        primary: 'bg-primary-60 rounded-xl w-[361px]',
-        secondary: 'rounded-xl w-[361px] border-2 border-primary-60',
+        primary: 'bg-primary-60 w-[361px]',
+        secondary: 'w-[361px] border-2 border-primary-60',
         emergency:
           'flex-row-reverse bg-secondary-80 rounded-full min-w-[124px]',
+        icon: 'bg-white rounded-full px-1',
       },
       size: {
-        default: 'h-[52px] py-2  px-4 rounded-md',
-        sm: 'max-h-[58px] px-2 rounded-md ',
-        md: 'max-h-[62px] px-4 rounded-md ',
-        lg: 'max-h-[65px] px-6 rounded-md ',
+        default: 'py-2 px-3',
+        sm: 'py-1 px-2',
+        md: 'py-2 px-4',
+        lg: 'py-3 px-6',
+        icon: 'p-3',
       },
       text: {
-        default: 'max-h-full text-black font-bold text-[20px]',
+        default: 'text-black font-bold text-[20px]',
         primary: 'text-white font-bold text-[20px]',
         secondary: 'text-primary-60 font-bold text-[20px]',
-        emergency: 'text-white font-bold text-[14px] ',
+        emergency: 'text-white font-bold text-[16px] ',
+        icon: 'hidden',
       },
     },
     defaultVariants: {
@@ -70,6 +74,7 @@ const Button: FC<ButtonProps> = ({
         <ActivityIndicator
           color={'white'}
           size="small"
+          className="py-1"
         />
       ) : (
         <>
