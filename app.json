@@ -1,6 +1,14 @@
 {
   "expo": {
-    "scheme": "acme",
+    "scheme": "pharmaLik",
+    "version":"0.1.0",
+    "orientation": "portrait",
+    "icon": "./app/assets/icon.png",
+    "splash": {
+      "image": "./app/assets/splash.png",
+      "backgroundColor": "#0B7B56",
+      "resizeMode": "contain"
+    },
     "web": {
       "bundler": "metro"
     },
