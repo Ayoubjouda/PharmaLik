@@ -3,9 +3,8 @@ import {
   TouchableOpacity,
   TouchableOpacityProps,
   ActivityIndicator,
-  View,
 } from 'react-native';
-import React, { FC } from 'react';
+import React, { FC, forwardRef } from 'react';
 import { cva, VariantProps } from 'class-variance-authority';
 import { cn } from 'lib/utils';
 interface ButtonProps
@@ -16,7 +15,7 @@ interface ButtonProps
 }
 
 const buttonVariants = cva(
-  `active:scale-95 bg-transparent flex flex-row items-center justify-center rounded-xl transition-colors focus:outline-none`,
+  `active:scale-95 bg-transparent flex flex-row items-center   justify-center rounded-xl transition-colors focus:outline-none`,
   {
     variants: {
       variant: {
@@ -24,8 +23,8 @@ const buttonVariants = cva(
         primary: 'bg-primary-60 w-[361px]',
         secondary: 'w-[361px] border-2 border-primary-60',
         emergency:
-          'flex-row-reverse bg-secondary-80 rounded-full min-w-[124px]',
-        icon: 'bg-white rounded-full px-1',
+          'flex-row-reverse bg-secondary-80 rounded-full max-w-[160px]	',
+        icon: 'bg-neutral-10 w-fit rounded-full  w-[48px] h-[48px]',
       },
       size: {
         default: 'py-2 px-3',
@@ -39,7 +38,7 @@ const buttonVariants = cva(
         primary: 'text-white font-bold text-[20px]',
         secondary: 'text-primary-60 font-bold text-[20px]',
         emergency: 'text-white font-bold text-[16px] ',
-        icon: 'hidden',
+        icon: 'hidden ',
       },
     },
     defaultVariants: {
@@ -50,48 +49,47 @@ const buttonVariants = cva(
   }
 );
 
-const Button: FC<ButtonProps> = ({
-  className,
-  children,
-  size,
-  variant,
-  label,
-  loading,
-  text,
-  ...props
-}) => {
-  return (
-    <TouchableOpacity
-      className={cn(
-        buttonVariants({ className, size, variant }),
-        `${props.disabled === true ? 'bg-neutral-60 border-neutral-60' : ''} `
-      )}
-      {...props}
-      testID="custom-button"
-    >
-      {loading ? (
-        //TODO: change Spinner
-        <ActivityIndicator
-          color={'white'}
-          size="small"
-          className="py-1"
-        />
-      ) : (
-        <>
-          <Text
-            className={cn(
-              buttonVariants({ text }),
-              `${props.disabled === true ? 'text-white' : ''} `
-            )}
-            testID="custom-button-text"
-          >
-            {label}
-          </Text>
-          {children}
-        </>
-      )}
-    </TouchableOpacity>
-  );
-};
+const Button: FC<ButtonProps> = forwardRef<TouchableOpacity, ButtonProps>(
+  (
+    { className, children, size, variant, label, loading, text, ...props },
+    ref
+  ) => {
+    return (
+      <TouchableOpacity
+        className={cn(
+          buttonVariants({ className, size, variant }),
+          `${props.disabled === true ? 'bg-neutral-60 border-neutral-60' : ''} `
+        )}
+        {...props}
+        ref={ref}
+        testID="custom-button"
+      >
+        {loading ? (
+          //TODO: change Spinner
+          <ActivityIndicator
+            color={'white'}
+            size="small"
+            className="py-1"
+          />
+        ) : (
+          <>
+            <Text
+              className={cn(
+                buttonVariants({ text }),
+                `${props.disabled === true ? 'text-white' : ''} `
+              )}
+              testID="custom-button-text"
+            >
+              {label}
+            </Text>
+            {children}
+          </>
+        )}
+      </TouchableOpacity>
+    );
+  }
+);
+
+Button.displayName = 'Button';
 
 export default Button;

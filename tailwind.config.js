@@ -3,6 +3,13 @@ module.exports = {
   content: ['./components/**/*.{js,jsx,ts,tsx}', './app/**/*.{js,jsx,ts,tsx}'],
   theme: {
     extend: {
+      fontFamily: {
+        SatoshiBold: ['Satoshi-Bold'],
+        SatoshiRegular: ['Satoshi-Regular'],
+        SatoshiLight: ['Satoshi-Light'],
+        SatoshiMedium: ['Satoshi-Medium'],
+        SatoshiBlack: ['Satoshi-Black'],
+      },
       colors: {
         'neutral-5': '#F9FAF9',
         'neutral-10': '#EBEEED',
