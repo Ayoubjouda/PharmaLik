@@ -5,9 +5,9 @@ import { ArrowRight, EmergencyIcon } from 'assets/icons';
 import { Link } from 'expo-router';
 export default function Page() {
   return (
-    <View className="items-center justify-center flex-1">
+    <View className="items-center justify-center flex-1 ">
       <Link
-        href="/languageScreen"
+        href="/authorizationScreen"
         asChild
       >
         <Button

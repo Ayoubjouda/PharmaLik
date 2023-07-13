@@ -14,12 +14,12 @@
     "isolatedModules": true,
     "jsx": "react-native",
     "noEmit": true,
-    "baseUrl": "./app",
+    "baseUrl": ".",
     "paths": {
-      "components": ["./app/components"],
-      "lib": ["./app/lib"]
+      "components": ["./components"],
+      "lib": ["./lib"]
     },
   },
-  "include": ["./app/**/*", "./app.d.ts"],
+  "include": ["./app/**/*", "./app.d.ts", "components", "assets", "types", "lib"],
   "exclude": ["node_modules", "build"]
 }

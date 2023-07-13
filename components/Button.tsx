@@ -20,8 +20,8 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default: 'bg-transparent',
-        primary: 'bg-primary-60 w-[361px]',
-        secondary: 'w-[361px] border-2 border-primary-60',
+        primary: 'bg-primary-60 w-[340px]',
+        secondary: 'w-[340px] border-2 border-primary-60',
         emergency:
           'flex-row-reverse bg-secondary-80 rounded-full max-w-[160px]	',
         icon: 'bg-neutral-10 w-fit rounded-full  w-[48px] h-[48px]',

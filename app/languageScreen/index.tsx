@@ -53,7 +53,7 @@ export default function Page() {
     setLanguage(newLanguage);
   };
   return (
-    <View className="flex-1 bg-white py-[85] px-4 justify-between">
+    <View className="flex-1 bg-white py-[85] px-4 justify-between items-center">
       <View>
         <Button
           variant="icon"
