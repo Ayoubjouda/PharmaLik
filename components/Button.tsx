@@ -62,7 +62,7 @@ const Button: FC<ButtonProps> = forwardRef<TouchableOpacity, ButtonProps>(
         )}
         {...props}
         ref={ref}
-        testID="custom-button"
+        testID={props.testID ? props.testID : 'custom-button'}
       >
         {loading ? (
           //TODO: change Spinner
