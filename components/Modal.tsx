@@ -18,18 +18,18 @@ const Modal: FC<ModalProps> = ({
 }) => {
   return (
     <View
-      className={`fixed inset-0 w-full h-full overflow-y-auto bg-black/60 ${
+      className={`absolute inset-0 w-full h-full overflow-y-auto bg-black/60 ${
         !isOpen ? 'hidden' : ''
       } `}
       testID="modal-container"
     >
       <View
-        className="w-[361px] min-h-[450px] py-6  bg-white rounded-xl flex-col top-[20%] mx-auto"
+        className="w-[361px] h-auto pt-6  bg-white rounded-xl flex-col top-[20%] mx-auto"
         {...props}
       >
         {/* Modal Header */}
         <View className="relative pb-4">
-          <View className="flex-row items-center justify-between px-5">
+          <View className="flex-row items-center justify-between px-5 ">
             <Text className="max-w-[80%] text-2xl font-bold leading-7 text-black">
               {title}
             </Text>
@@ -48,10 +48,10 @@ const Modal: FC<ModalProps> = ({
             </Button>
           </View>
 
-          <View className="absolute bottom-0 w-full  h-[0px] border border-neutral-300"></View>
+          <View className="absolute bottom-0 w-full  h-[1px] bg-neutral-20"></View>
         </View>
         {/* Modal Body */}
-        <View className="flex items-center justify-center px-5">
+        <View className="flex items-center justify-center gap-4 px-5 py-6">
           {children}
         </View>
       </View>
