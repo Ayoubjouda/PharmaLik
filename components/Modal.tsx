@@ -18,7 +18,7 @@ const Modal: FC<ModalProps> = ({
 }) => {
   return (
     <View
-      className={`absolute inset-0 w-full h-full overflow-y-auto bg-black/60 ${
+      className={`absolute inset-0 w-full h-[100vh] overflow-y-auto bg-black/60 ${
         !isOpen ? 'hidden' : ''
       } `}
       testID="modal-container"

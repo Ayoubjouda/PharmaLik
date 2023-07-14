@@ -1,18 +1,27 @@
-import { EmergencyIcon } from 'assets/icons';
+import { View } from 'react-native';
 import { Button, EmergencyModal } from 'components';
-import { FC, useState } from 'react';
-import { View, ViewProps } from 'react-native';
 import { SvgXml } from 'react-native-svg';
+import { EmergencyIcon } from 'assets/icons';
 
-type indexProps = ViewProps;
+import { useState } from 'react';
+import { Feather } from '@expo/vector-icons';
 
-const index: FC<indexProps> = () => {
+const NavBar = () => {
   const [isModalOpen, setisModalOpen] = useState<boolean>(false);
-
   return (
-    <View className="relative">
-      <View className="absolute flex-row justify-between top-3 ">
-        <Button />
+    <View className="bg-white max-w-[100vw]">
+      <View className="flex flex-row justify-between w-full px-4 top-14">
+        <Button
+          variant={'icon'}
+          size={'icon'}
+          text={'icon'}
+        >
+          <Feather
+            name="menu"
+            size={24}
+            color="black"
+          />
+        </Button>
         <Button
           variant="emergency"
           text={'emergency'}
@@ -32,5 +41,4 @@ const index: FC<indexProps> = () => {
     </View>
   );
 };
-
-export default index;
+export default NavBar;
