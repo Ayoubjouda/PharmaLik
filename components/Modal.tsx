@@ -2,6 +2,7 @@ import { FC } from 'react';
 import { View, Text, ViewProps } from 'react-native';
 import Button from './Button';
 import { AntDesign } from '@expo/vector-icons';
+import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
 
 interface ModalProps extends ViewProps {
   title?: string;
@@ -17,11 +18,14 @@ const Modal: FC<ModalProps> = ({
   ...props
 }) => {
   return (
-    <View
-      className={`absolute inset-0 w-full h-[100vh] overflow-y-auto bg-black/60 ${
+    <Animated.View
+      className={`absolute inset-0 z-20 w-full h-screen overflow-y-auto bg-black/60 ${
         !isOpen ? 'hidden' : ''
       } `}
       testID="modal-container"
+      key={Math.random()}
+      entering={FadeIn.duration(300)}
+      exiting={FadeOut.duration(300)}
     >
       <View
         className="w-[361px] h-auto pt-6  bg-white rounded-xl flex-col top-[20%] mx-auto"
@@ -55,7 +59,7 @@ const Modal: FC<ModalProps> = ({
           {children}
         </View>
       </View>
-    </View>
+    </Animated.View>
   );
 };
 

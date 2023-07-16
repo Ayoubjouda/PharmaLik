@@ -23,6 +23,7 @@ module.exports = function (api) {
           alias: {
             components: './components',
             lib: './lib',
+            store: './zustand',
           },
         },
       ],
