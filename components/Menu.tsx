@@ -91,21 +91,26 @@ const Menu: FC<MenuProps> = () => {
           <SvgXml xml={ChevronRightIcon} />
         </Button>
         <View className="w-full h-[1px]  bg-gray-300"></View>
-        <Button
-          variant="primary"
-          text={'icon'}
-          size={'lg'}
-          className={`justify-between w-full px-0 bg-white py-5`}
+        <Link
+          href={'/settings/supportScreen'}
+          asChild
         >
-          <View className="flex-row items-center gap-2">
-            <SvgXml xml={SupportAgentIcon} />
-            <Text className="text-lg font-bold leading-normal text-neutral-500">
-              Technical support
-            </Text>
-          </View>
+          <Button
+            variant="primary"
+            text={'icon'}
+            size={'lg'}
+            className={`justify-between w-full px-0 bg-white py-5`}
+          >
+            <View className="flex-row items-center gap-2">
+              <SvgXml xml={SupportAgentIcon} />
+              <Text className="text-lg font-bold leading-normal text-neutral-500">
+                Technical support
+              </Text>
+            </View>
 
-          <SvgXml xml={ChevronRightIcon} />
-        </Button>
+            <SvgXml xml={ChevronRightIcon} />
+          </Button>
+        </Link>
         <View className="w-full h-[1px]  bg-gray-300"></View>
 
         <Button

@@ -53,7 +53,7 @@ export default function Page() {
     setLanguage(newLanguage);
   };
   return (
-    <View className="flex-1 bg-white py-[85] px-4 justify-between items-center">
+    <View className="flex-1 bg-white py-[85] px-4 justify-between ">
       <View>
         <Button
           variant="icon"
@@ -106,7 +106,7 @@ export default function Page() {
           ))}
         </View>
       </View>
-      <View>
+      <View className="items-center">
         <Button
           variant="primary"
           text={'primary'}
