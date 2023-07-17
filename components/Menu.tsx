@@ -1,5 +1,5 @@
 import { FC, useState } from 'react';
-import { View, Text, Switch, ViewProps } from 'react-native';
+import { View, Text, Switch, ViewProps, TouchableOpacity } from 'react-native';
 import Button from './Button';
 import { SvgXml } from 'react-native-svg';
 import {
@@ -15,7 +15,7 @@ import {
 } from 'assets/icons';
 import useAppStore from 'zustand/store';
 import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
-
+import { Link } from 'expo-router';
 type MenuProps = ViewProps;
 
 const Menu: FC<MenuProps> = () => {
@@ -56,12 +56,17 @@ const Menu: FC<MenuProps> = () => {
           size={'lg'}
           className={`justify-between w-full px-0 bg-white py-5`}
         >
-          <View className="flex-row items-center gap-2">
-            <SvgXml xml={LanguageIcon} />
-            <Text className="text-lg font-bold leading-normal text-neutral-500">
-              Change language
-            </Text>
-          </View>
+          <Link
+            href={'/settings/languageScreen'}
+            asChild
+          >
+            <TouchableOpacity className="flex-row items-center gap-2">
+              <SvgXml xml={LanguageIcon} />
+              <Text className="text-lg font-bold leading-normal text-neutral-500">
+                Change language
+              </Text>
+            </TouchableOpacity>
+          </Link>
 
           <SvgXml xml={ChevronRightIcon} />
         </Button>

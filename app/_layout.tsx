@@ -1,4 +1,4 @@
-import { Slot } from 'expo-router';
+import { Stack } from 'expo-router';
 import { NativeWindStyleSheet } from 'nativewind';
 import { useFonts } from 'expo-font';
 
@@ -18,5 +18,12 @@ export default function HomeLayout() {
   if (!loadedFont) {
     return null;
   }
-  return <Slot />;
+  return (
+    <Stack
+      screenOptions={{
+        headerShown: false,
+        contentStyle: { backgroundColor: 'white' },
+      }}
+    />
+  );
 }
