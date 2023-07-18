@@ -19,5 +19,6 @@ export {default as QuestionMarkIcon} from './questionMark'
 export {default as FAQIcon} from './faq'
 export {default as PaypalIcon} from './paypal'
 export {default as CihIcon} from './cih'
+export {default as SearchIcon} from './search'
 
 

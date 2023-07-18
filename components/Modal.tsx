@@ -19,7 +19,7 @@ const Modal: FC<ModalProps> = ({
 }) => {
   return (
     <Animated.View
-      className={`absolute inset-0 z-20 w-full h-screen overflow-y-auto bg-black/60 ${
+      className={`absolute inset-0 z-40 w-full h-screen overflow-y-auto bg-black/60 ${
         !isOpen ? 'hidden' : ''
       } `}
       testID="modal-container"

@@ -1,4 +1,3 @@
-import { View } from 'react-native';
 import { Button, EmergencyModal } from 'components';
 import { SvgXml } from 'react-native-svg';
 import { EmergencyIcon } from 'assets/icons';
@@ -12,52 +11,47 @@ const NavBar = () => {
 
   const { isMenuOpen, setIsMenuOpen } = useAppStore();
   return (
-    <View className={`bg-white max-w-[100vw] z-10 `}>
-      <View
-        className={`relative flex flex-row justify-between w-full px-4 top-14 pb-3 ${
-          isMenuOpen ? 'bg-white' : ''
-        }`}
+    <>
+      <Button
+        variant={'icon'}
+        size={'icon'}
+        text={'icon'}
+        onPress={setIsMenuOpen}
+        className="absolute z-30 top-14 left-4"
       >
-        <Button
-          variant={'icon'}
-          size={'icon'}
-          text={'icon'}
-          onPress={setIsMenuOpen}
-        >
-          {!isMenuOpen ? (
-            <Feather
-              name="menu"
-              size={24}
-              color="black"
-            />
-          ) : (
-            <Feather
-              name="x"
-              size={24}
-              color="black"
-            />
-          )}
-        </Button>
-        <Button
-          variant="emergency"
-          text={'emergency'}
-          label={'Emergency'}
-          onPress={() => setisModalOpen(true)}
-        >
-          <SvgXml
-            xml={EmergencyIcon}
-            className="fill-white stroke-white"
+        {!isMenuOpen ? (
+          <Feather
+            name="menu"
+            size={24}
+            color="black"
           />
-        </Button>
-        {isMenuOpen ? (
-          <View className="absolute w-[100vw] h-[1px] bottom-0 left-0  bg-gray-400"></View>
-        ) : null}
-      </View>
+        ) : (
+          <Feather
+            name="x"
+            size={24}
+            color="black"
+          />
+        )}
+      </Button>
+
+      <Button
+        variant="emergency"
+        text={'emergency'}
+        label={'Emergency'}
+        onPress={() => setisModalOpen(true)}
+        className="absolute z-30 top-14 right-4"
+      >
+        <SvgXml
+          xml={EmergencyIcon}
+          className="fill-white stroke-white"
+        />
+      </Button>
+
       <EmergencyModal
         isModalOpen={isModalOpen}
         setIsModalOpen={setisModalOpen}
       />
-    </View>
+    </>
   );
 };
 export default NavBar;

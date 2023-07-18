@@ -15,7 +15,7 @@ interface ButtonProps
 }
 
 const buttonVariants = cva(
-  `active:scale-95 bg-transparent flex flex-row items-center   justify-center rounded-xl transition-colors focus:outline-none`,
+  `active:scale-95 bg-transparent flex flex-row items-center  justify-center rounded-xl transition-colors focus:outline-none`,
   {
     variants: {
       variant: {

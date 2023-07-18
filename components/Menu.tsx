@@ -1,5 +1,5 @@
 import { FC, useState } from 'react';
-import { View, Text, Switch, ViewProps, TouchableOpacity } from 'react-native';
+import { View, Text, Switch, ViewProps } from 'react-native';
 import Button from './Button';
 import { SvgXml } from 'react-native-svg';
 import {
@@ -24,13 +24,16 @@ const Menu: FC<MenuProps> = () => {
 
   return (
     <Animated.View
-      className={`absolute inset-0 gap-y-6 pt-36 items-center flex-1 max-w-[100vw] ${
+      className={`absolute bg-white inset-0 gap-y-6 pt-28 items-center flex-1 max-w-[100vw] z-10 ${
         !isMenuOpen ? 'hidden' : ''
       }`}
       key={Math.random()}
       entering={FadeIn.duration(400)}
       exiting={FadeOut.duration(400)}
     >
+      {isMenuOpen ? (
+        <View className="w-[100vw] h-[1px] bg-gray-400"></View>
+      ) : null}
       {/* //section 1 */}
       <View className="w-full px-3">
         <Text className="w-full text-2xl font-bold leading-7 text-neutral-950">
@@ -50,26 +53,26 @@ const Menu: FC<MenuProps> = () => {
           />
         </View>
         <View className="w-full h-[1px]  bg-gray-300"></View>
-        <Button
-          variant="primary"
-          text={'icon'}
-          size={'lg'}
-          className={`justify-between w-full px-0 bg-white py-5`}
+        <Link
+          href={'/settings/languageScreen'}
+          asChild
         >
-          <Link
-            href={'/settings/languageScreen'}
-            asChild
+          <Button
+            variant="primary"
+            text={'icon'}
+            size={'lg'}
+            className={`justify-between w-full px-0 bg-white py-5`}
           >
-            <TouchableOpacity className="flex-row items-center gap-2">
+            <View className="flex-row items-center gap-2">
               <SvgXml xml={LanguageIcon} />
               <Text className="text-lg font-bold leading-normal text-neutral-500">
                 Change language
               </Text>
-            </TouchableOpacity>
-          </Link>
+            </View>
 
-          <SvgXml xml={ChevronRightIcon} />
-        </Button>
+            <SvgXml xml={ChevronRightIcon} />
+          </Button>
+        </Link>
       </View>
       <View className="w-full px-3">
         <Text className="w-full text-2xl font-bold leading-7 text-neutral-950">
