@@ -1,7 +1,7 @@
 {
   "expo": {
     "scheme": "pharmaLik",
-    "version":"0.1.0",
+    "version": "0.1.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -15,12 +15,31 @@
     "name": "pharmaLik",
     "slug": "pharmaLik",
     "plugins": [
-      "expo-router",[
+      "expo-router",
+      [
         "expo-location",
         {
           "locationAlwaysAndWhenInUsePermission": "Allow PharmaLik to use your location."
         }
       ]
-    ]
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.example.PharmaLik",
+      "config": {
+        "googleMapsApiKey": "AIzaSyB5h6XQA1Idx4fZ6ZsSbJaK3vPIdqGhRU4"
+      }
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "088ae612-1aa5-4c50-8395-7c2435d55f77"
+      }
+    },
+    "android": {
+      "package": "com.example.PharmaLik"
+    }
   }
 }

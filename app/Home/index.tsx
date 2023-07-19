@@ -1,14 +1,8 @@
 import { Input } from 'components';
 import { FC, useRef, useMemo, useCallback } from 'react';
-import {
-  TouchableOpacity,
-  View,
-  ViewProps,
-  Text,
-  Keyboard,
-} from 'react-native';
+import { View, ViewProps, Text, Keyboard } from 'react-native';
 import { SearchIcon } from 'assets/icons';
-
+import { Map } from 'components';
 import BottomSheet from '@gorhom/bottom-sheet';
 type indexProps = ViewProps;
 
@@ -31,14 +25,7 @@ const index: FC<indexProps> = () => {
       className="flex-1"
       testID="Home-Screen"
     >
-      <View className="flex-1 bg-black -z-1">
-        <TouchableOpacity
-          className="mt-16"
-          onPress={() => console.log('f')}
-        >
-          <Text className="text-white">Open the modal</Text>
-        </TouchableOpacity>
-      </View>
+      <Map />
       <BottomSheet
         ref={bottomSheetRef}
         index={0}
