@@ -1,57 +1,21 @@
-import { Input } from 'components';
-import { FC, useRef, useMemo, useCallback } from 'react';
-import { View, ViewProps, Text, Keyboard } from 'react-native';
-import { SearchIcon } from 'assets/icons';
-import { Map } from 'components';
+import { FC, useRef } from 'react';
+import { View, ViewProps } from 'react-native';
+
+import { Map, ModalSheet } from 'components';
 import BottomSheet from '@gorhom/bottom-sheet';
+
 type indexProps = ViewProps;
 
 const index: FC<indexProps> = () => {
-  // secound bottom sheet
-  const bottomSheetRef = useRef<BottomSheet>(null);
-
-  // variables
-  const snapPoints = useMemo(() => ['25%', '85%'], []);
-
-  // callbacks
-  const handleSheetChanges = useCallback((index: number) => {
-    if (index === 0) {
-      Keyboard.dismiss();
-    }
-  }, []);
+  const modalSheetRef = useRef<BottomSheet>(null);
 
   return (
     <View
-      className="flex-1"
+      className="flex-1 bg-black"
       testID="Home-Screen"
     >
       <Map />
-      <BottomSheet
-        ref={bottomSheetRef}
-        index={0}
-        snapPoints={snapPoints}
-        onChange={handleSheetChanges}
-        keyboardBehavior="fillParent"
-      >
-        <View>
-          <Text className="mx-5 mt-6 text-2xl font-bold leading-7 text-black">
-            Search for a pharmacy
-          </Text>
-          <View className="h-[1px] my-5 bg-neutral-30"></View>
-          <View className="mx-5">
-            <Input
-              placeholder="Search for a pharmacy"
-              className="bg-neutral-10"
-              leftIcon={SearchIcon}
-              placeholderTextColor={'#798D87'}
-              onPressIn={() => {
-                bottomSheetRef.current?.snapToIndex(1);
-                handleSheetChanges(1);
-              }}
-            />
-          </View>
-        </View>
-      </BottomSheet>
+      <ModalSheet ref={modalSheetRef} />
     </View>
   );
 };

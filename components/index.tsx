@@ -4,3 +4,5 @@ export { default as EmergencyModal } from './EmergencyModal';
 export { default as Menu } from './Menu';
 export { default as Input } from './Input';
 export { default as Map } from './Map';
+export { default as BottomModal } from './BottomModal';
+export { default as ModalSheet } from './ModalSheet';

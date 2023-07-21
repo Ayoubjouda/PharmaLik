@@ -69,7 +69,10 @@ const EmergencyModal: FC<EmergencyModalProps> = ({
             </Text>
           </View>
           <View className="flex-row items-center px-2 rounded-full bg-secondary-10 gap-x-1">
-            <SvgXml xml={PhoneIcon} />
+            <SvgXml
+              xml={PhoneIcon}
+              className="fill-red-600 stroke-red-600"
+            />
             <Text className="text-xl font-bold text-red-600">{el.number}</Text>
           </View>
         </Button>
