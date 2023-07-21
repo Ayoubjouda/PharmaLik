@@ -7,15 +7,12 @@ import BottomSheet from '@gorhom/bottom-sheet';
 type indexProps = ViewProps;
 
 const index: FC<indexProps> = () => {
-  const modalSheetRef = useRef<BottomSheet>(null);
-
   return (
     <View
       className="flex-1 bg-black"
       testID="Home-Screen"
     >
       <Map />
-      <ModalSheet ref={modalSheetRef} />
     </View>
   );
 };

@@ -32,6 +32,7 @@ const BottomModal = forwardRef<BottomSheetModal>((props, ref) => {
         snapPoints={snapPoints}
         onChange={handleSheetChanges}
         backgroundStyle={{ backgroundColor: 'transparent' }}
+        handleComponent={() => null}
       >
         <View className="relative items-center gap-10 ">
           <Button
