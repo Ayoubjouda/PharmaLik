@@ -1,18 +1,21 @@
 import Button from './Button';
 
 import { useMemo, useCallback, forwardRef } from 'react';
-import { View, Text, TouchableOpacity, Image } from 'react-native';
-import { PhoneIcon, StarIcon } from 'assets/icons';
+import { View, Text, TouchableOpacity } from 'react-native';
+import { PhoneIcon, DistanceIcon } from 'assets/icons';
 import {
   BottomSheetModal,
   BottomSheetModalProvider,
 } from '@gorhom/bottom-sheet';
 import { SvgXml } from 'react-native-svg';
 import { Feather } from '@expo/vector-icons';
+import useAppStore from 'zustand/store';
+import { useQueryClient } from '@tanstack/react-query';
 
 const BottomModal = forwardRef<BottomSheetModal>((props, ref) => {
-  const snapPoints = useMemo(() => ['25%', '50%'], []);
-
+  const snapPoints = useMemo(() => ['25%', '35%'], []);
+  const { selectedPharmacy, setSelectedPharmacy, setCoords } = useAppStore();
+  const queryClient = useQueryClient();
   const handleSheetChanges = useCallback((index: number) => {
     console.log('handleSheetChanges', index);
   }, []);
@@ -22,6 +25,9 @@ const BottomModal = forwardRef<BottomSheetModal>((props, ref) => {
     if (ref && ref.current) {
       ref.current.close();
     }
+    setSelectedPharmacy(null);
+    setCoords([]);
+    queryClient.invalidateQueries({ queryKey: ['pharmacies'] });
   };
 
   return (
@@ -48,44 +54,40 @@ const BottomModal = forwardRef<BottomSheetModal>((props, ref) => {
               color="black"
             />
           </Button>
-          <View className="w-[361px] h-[268px] bg-white rounded-xl shadow flex-col justify-start items-start inline-flex ">
-            <View className="self-stretch h-[125px] rounded-tl-xl rounded-tr-xl justify-start items-start inline-flex">
-              <Image
-                className="w-full h-[125px] relative rounded-t-xl"
-                source={{ uri: 'https://via.placeholder.com/125x125' }}
-              />
-            </View>
+          <View className="w-[361px]  bg-white rounded-xl shadow flex-col justify-start items-start inline-flex ">
             <View className="w-full px-4 py-4 gap-y-3">
               <View className="">
                 <View className="flex-row justify-between w-full">
                   <Text className="text-lg font-bold leading-normal text-black">
-                    Pharmacie Haj Fateh
+                    {selectedPharmacy?.title}
                   </Text>
-                  <View className="flex-row items-center gap-x-1">
-                    <SvgXml xml={StarIcon} />
-                    <Text className="text-lg font-bold leading-normal text-black">
-                      4.7
-                    </Text>
-                  </View>
                 </View>
                 <View>
                   <Text
                     className="max-w-full text-lg font-normal leading-normal text-neutral-500 "
                     numberOfLines={1}
                   >
-                    Lissassfa II Bloc D N° 250 Boulevard Ha eleme
+                    {selectedPharmacy?.address}
                   </Text>
                 </View>
               </View>
-              <TouchableOpacity className="flex-row items-center self-start justify-center p-2 gap-x-1 bg-neutral-10 rounded-xl">
-                <SvgXml
-                  xml={PhoneIcon}
-                  className="fill-neutral-50 stroke-neutral-50"
-                />
-                <Text className="text-lg font-normal leading-normal text-neutral-80 ">
-                  05 22 65 10 74
-                </Text>
-              </TouchableOpacity>
+              <View className="flex-row items-center justify-between">
+                <TouchableOpacity className="flex-row items-center self-start justify-center p-2 gap-x-1 bg-neutral-10 rounded-xl">
+                  <SvgXml
+                    xml={PhoneIcon}
+                    className="fill-neutral-50 stroke-neutral-50"
+                  />
+                  <Text className="text-lg font-normal leading-normal text-neutral-80 ">
+                    {selectedPharmacy?.Phone}
+                  </Text>
+                </TouchableOpacity>
+                <View className="flex-row items-center gap-1">
+                  <SvgXml xml={DistanceIcon} />
+                  <Text className="text-lg font-bold text-neutral-80">
+                    {selectedPharmacy?.distance.toFixed(2)} KM
+                  </Text>
+                </View>
+              </View>
             </View>
           </View>
           <Button

@@ -1,6 +1,9 @@
 import { Stack } from 'expo-router';
 import { NativeWindStyleSheet } from 'nativewind';
 import { useFonts } from 'expo-font';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
+const queryClient = new QueryClient();
 
 export default function HomeLayout() {
   NativeWindStyleSheet.setOutput({
@@ -18,12 +21,15 @@ export default function HomeLayout() {
   if (!loadedFont) {
     return null;
   }
+
   return (
-    <Stack
-      screenOptions={{
-        headerShown: false,
-        contentStyle: { backgroundColor: 'white' },
-      }}
-    />
+    <QueryClientProvider client={queryClient}>
+      <Stack
+        screenOptions={{
+          headerShown: false,
+          contentStyle: { backgroundColor: 'white' },
+        }}
+      />
+    </QueryClientProvider>
   );
 }

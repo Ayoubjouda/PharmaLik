@@ -1,5 +1,5 @@
 import { FC, useState } from 'react';
-import { View, Text, Switch, ViewProps } from 'react-native';
+import { View, Text, Switch, ViewProps, ScrollView } from 'react-native';
 import Button from './Button';
 import { SvgXml } from 'react-native-svg';
 import {
@@ -23,40 +23,65 @@ const Menu: FC<MenuProps> = () => {
   const { isMenuOpen } = useAppStore();
 
   return (
-    <Animated.View
-      className={`absolute bg-white inset-0 gap-y-6 pt-28 items-center flex-1 max-w-[100vw] z-10 ${
+    <ScrollView
+      className={`absolute bg-white inset-0 gap-y-6 pt-28  flex-1 max-w-[100vw] z-10 ${
         !isMenuOpen ? 'hidden' : ''
       }`}
-      key={Math.random()}
-      entering={FadeIn.duration(400)}
-      exiting={FadeOut.duration(400)}
+      contentContainerStyle={{ alignItems: 'center', flex: 1 }}
     >
-      {isMenuOpen ? (
-        <View className="w-[100vw] h-[1px] bg-gray-400"></View>
-      ) : null}
-      {/* //section 1 */}
-      <View className="w-full px-3">
-        <Text className="w-full text-2xl font-bold leading-7 text-neutral-950">
-          Settings
-        </Text>
-        <View className={`flex-row  w-full justify-between  py-5 bg-white`}>
-          <View className="flex-row items-center gap-2">
-            <SvgXml xml={NightIcon} />
-            <Text className="text-lg font-bold leading-normal text-neutral-500">
-              Dark mode
-            </Text>
-          </View>
+      <Animated.View
+        key={Math.random()}
+        entering={FadeIn.duration(400)}
+        exiting={FadeOut.duration(400)}
+        className="flex-1 w-screen h-screen "
+      >
+        {isMenuOpen ? (
+          <View className="w-[100vw] h-[1px] bg-gray-400 mb-3"></View>
+        ) : null}
+        {/* //section 1 */}
+        <View className="w-full px-3">
+          <Text className="w-full text-2xl font-bold leading-7 text-neutral-950">
+            Settings
+          </Text>
+          <View className={`flex-row  w-full justify-between  py-5 bg-white`}>
+            <View className="flex-row items-center gap-2">
+              <SvgXml xml={NightIcon} />
+              <Text className="text-lg font-bold leading-normal text-neutral-500">
+                Dark mode
+              </Text>
+            </View>
 
-          <Switch
-            onValueChange={() => setIsDarkModeEnabled(!isDarkModeEnabled)}
-            value={isDarkModeEnabled}
-          />
+            <Switch
+              onValueChange={() => setIsDarkModeEnabled(!isDarkModeEnabled)}
+              value={isDarkModeEnabled}
+            />
+          </View>
+          <View className="w-full h-[1px]  bg-gray-300"></View>
+          <Link
+            href={'/settings/languageScreen'}
+            asChild
+          >
+            <Button
+              variant="primary"
+              text={'icon'}
+              size={'lg'}
+              className={`justify-between w-full px-0 bg-white py-5`}
+            >
+              <View className="flex-row items-center gap-2">
+                <SvgXml xml={LanguageIcon} />
+                <Text className="text-lg font-bold leading-normal text-neutral-500">
+                  Change language
+                </Text>
+              </View>
+
+              <SvgXml xml={ChevronRightIcon} />
+            </Button>
+          </Link>
         </View>
-        <View className="w-full h-[1px]  bg-gray-300"></View>
-        <Link
-          href={'/settings/languageScreen'}
-          asChild
-        >
+        <View className="w-full px-3">
+          <Text className="w-full text-2xl font-bold leading-7 text-neutral-950">
+            Support
+          </Text>
           <Button
             variant="primary"
             text={'icon'}
@@ -64,40 +89,37 @@ const Menu: FC<MenuProps> = () => {
             className={`justify-between w-full px-0 bg-white py-5`}
           >
             <View className="flex-row items-center gap-2">
-              <SvgXml xml={LanguageIcon} />
+              <SvgXml xml={QuestionMarkIcon} />
               <Text className="text-lg font-bold leading-normal text-neutral-500">
-                Change language
+                How to use?
               </Text>
             </View>
 
             <SvgXml xml={ChevronRightIcon} />
           </Button>
-        </Link>
-      </View>
-      <View className="w-full px-3">
-        <Text className="w-full text-2xl font-bold leading-7 text-neutral-950">
-          Support
-        </Text>
-        <Button
-          variant="primary"
-          text={'icon'}
-          size={'lg'}
-          className={`justify-between w-full px-0 bg-white py-5`}
-        >
-          <View className="flex-row items-center gap-2">
-            <SvgXml xml={QuestionMarkIcon} />
-            <Text className="text-lg font-bold leading-normal text-neutral-500">
-              How to use?
-            </Text>
-          </View>
+          <View className="w-full h-[1px]  bg-gray-300"></View>
+          <Link
+            href={'/settings/supportScreen'}
+            asChild
+          >
+            <Button
+              variant="primary"
+              text={'icon'}
+              size={'lg'}
+              className={`justify-between w-full px-0 bg-white py-5`}
+            >
+              <View className="flex-row items-center gap-2">
+                <SvgXml xml={SupportAgentIcon} />
+                <Text className="text-lg font-bold leading-normal text-neutral-500">
+                  Technical support
+                </Text>
+              </View>
 
-          <SvgXml xml={ChevronRightIcon} />
-        </Button>
-        <View className="w-full h-[1px]  bg-gray-300"></View>
-        <Link
-          href={'/settings/supportScreen'}
-          asChild
-        >
+              <SvgXml xml={ChevronRightIcon} />
+            </Button>
+          </Link>
+          <View className="w-full h-[1px]  bg-gray-300"></View>
+
           <Button
             variant="primary"
             text={'icon'}
@@ -105,74 +127,57 @@ const Menu: FC<MenuProps> = () => {
             className={`justify-between w-full px-0 bg-white py-5`}
           >
             <View className="flex-row items-center gap-2">
-              <SvgXml xml={SupportAgentIcon} />
+              <SvgXml xml={FAQIcon} />
               <Text className="text-lg font-bold leading-normal text-neutral-500">
-                Technical support
+                FAQ
               </Text>
             </View>
 
             <SvgXml xml={ChevronRightIcon} />
           </Button>
-        </Link>
-        <View className="w-full h-[1px]  bg-gray-300"></View>
+        </View>
+        <View className="w-full px-3">
+          <Text className="w-full text-2xl font-bold leading-7 text-neutral-950">
+            Donate
+          </Text>
+          <Text className="mt-2 text-lg font-normal leading-normal text-neutral-500">
+            Pharmalik is a non-profit application, if you want to help donate or
+            whatever.
+          </Text>
+          <Button
+            variant="primary"
+            text={'icon'}
+            size={'lg'}
+            className={`justify-between w-full px-0 bg-white py-5`}
+          >
+            <View className="flex-row items-center gap-2">
+              <SvgXml xml={PaypalIcon} />
+              <Text className="text-lg font-bold leading-normal text-neutral-500">
+                Paypal
+              </Text>
+            </View>
 
-        <Button
-          variant="primary"
-          text={'icon'}
-          size={'lg'}
-          className={`justify-between w-full px-0 bg-white py-5`}
-        >
-          <View className="flex-row items-center gap-2">
-            <SvgXml xml={FAQIcon} />
-            <Text className="text-lg font-bold leading-normal text-neutral-500">
-              FAQ
-            </Text>
-          </View>
+            <SvgXml xml={ExternalLinkIcon} />
+          </Button>
+          <View className="w-full h-[1px]  bg-gray-300"></View>
+          <Button
+            variant="primary"
+            text={'icon'}
+            size={'lg'}
+            className={`justify-between w-full px-0 bg-white py-5`}
+          >
+            <View className="flex-row items-center gap-2">
+              <SvgXml xml={CihIcon} />
+              <Text className="text-lg font-bold leading-normal text-neutral-500">
+                CIH Bank
+              </Text>
+            </View>
 
-          <SvgXml xml={ChevronRightIcon} />
-        </Button>
-      </View>
-      <View className="w-full px-3">
-        <Text className="w-full text-2xl font-bold leading-7 text-neutral-950">
-          Donate
-        </Text>
-        <Text className="mt-2 text-lg font-normal leading-normal text-neutral-500">
-          Pharmalik is a non-profit application, if you want to help donate or
-          whatever.
-        </Text>
-        <Button
-          variant="primary"
-          text={'icon'}
-          size={'lg'}
-          className={`justify-between w-full px-0 bg-white py-5`}
-        >
-          <View className="flex-row items-center gap-2">
-            <SvgXml xml={PaypalIcon} />
-            <Text className="text-lg font-bold leading-normal text-neutral-500">
-              Paypal
-            </Text>
-          </View>
-
-          <SvgXml xml={ExternalLinkIcon} />
-        </Button>
-        <View className="w-full h-[1px]  bg-gray-300"></View>
-        <Button
-          variant="primary"
-          text={'icon'}
-          size={'lg'}
-          className={`justify-between w-full px-0 bg-white py-5`}
-        >
-          <View className="flex-row items-center gap-2">
-            <SvgXml xml={CihIcon} />
-            <Text className="text-lg font-bold leading-normal text-neutral-500">
-              CIH Bank
-            </Text>
-          </View>
-
-          <SvgXml xml={ExternalLinkIcon} />
-        </Button>
-      </View>
-    </Animated.View>
+            <SvgXml xml={ExternalLinkIcon} />
+          </Button>
+        </View>
+      </Animated.View>
+    </ScrollView>
   );
 };
 

@@ -1,8 +1,7 @@
-import { FC, useRef } from 'react';
+import { FC } from 'react';
 import { View, ViewProps } from 'react-native';
 
-import { Map, ModalSheet } from 'components';
-import BottomSheet from '@gorhom/bottom-sheet';
+import { Map } from 'components';
 
 type indexProps = ViewProps;
 
