@@ -22,5 +22,6 @@ export {default as CihIcon} from './cih'
 export {default as SearchIcon} from './search'
 export {default as StarIcon} from './Star'
 export {default as DistanceIcon} from './Distance'
+export {default as ClockIcon} from './Clock'
 
 

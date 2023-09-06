@@ -73,6 +73,8 @@ const Map: FC<MapProps> = () => {
     setPharmacies([pharmacy]);
     if (!_mapView.current) return;
 
+    // @ts-expect-error problem with the types of MapView
+
     _mapView.current?.animateToRegion(
       {
         latitude: pharmacy.lat,
@@ -140,7 +142,10 @@ const Map: FC<MapProps> = () => {
         )}
       </MapView>
       <ModalSheet ref={modalSheetRef} />
-      <BottomModal ref={bottomModalRef} />
+      <BottomModal
+        ref={bottomModalRef}
+        handleOpenModalSheet={() => modalSheetRef.current?.snapToIndex(0)}
+      />
     </View>
   );
 };
