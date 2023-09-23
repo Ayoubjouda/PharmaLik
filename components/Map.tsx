@@ -32,8 +32,15 @@ const Map: FC<MapProps> = () => {
     longitude: -7.674299924432601,
   });
   const _mapView = useRef<MapView | null>(null);
-  const { pharmacies, setPharmacies, setSelectedPharmacy, coords, setCoords } =
-    useAppStore();
+  const {
+    pharmacies,
+    setPharmacies,
+    setSelectedPharmacy,
+    coords,
+    setCoords,
+    isTripStarted,
+    selectedPharmacy,
+  } = useAppStore();
   useQuery({
     queryKey: ['pharmacies'],
     queryFn: async () =>
@@ -41,9 +48,42 @@ const Map: FC<MapProps> = () => {
         'https://saydalia.ma/api/siteweb_api.php?origin=33.540950942916%2C-7.674299924432601&api_key=808RBAI77YIO2HZQ9WYSJKHK9WDEVVXXERFB77CALCU6U0'
       ),
     onSuccess: (res) => {
-      setPharmacies(res.data as Pharmacy[]);
+      setPharmacies([
+        ...pharmacies,
+        ...(res.data.filter(
+          (item: Pharmacy) => item.id !== pharmacies[0]?.id
+        ) as Pharmacy[]),
+      ]);
     },
   });
+
+  useEffect(() => {
+    let intervalId = null;
+
+    // Function to make the request
+    const startTracking = () => {
+      // Check if the condition is still true
+      if (isTripStarted && selectedPharmacy) {
+        if (!currentUserLocation) return;
+        getDirections(
+          `${currentUserLocation?.longitude},${currentUserLocation?.latitude}`,
+          `${selectedPharmacy.lng},${selectedPharmacy.lat}`
+        ).then((coords) => setCoords(coords as LatLng[]));
+        console.log('tracking');
+      } else {
+        // If the condition becomes false, clear the interval
+        clearInterval(intervalId);
+      }
+    };
+
+    // Set up the interval to make the request every second
+    intervalId = setInterval(startTracking, 1000);
+
+    // Clean up the interval when the component unmounts or when the condition changes
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, [isTripStarted]);
 
   useEffect(() => {
     (async () => {
@@ -66,8 +106,8 @@ const Map: FC<MapProps> = () => {
   const handleGetDirections = (pharmacy: Pharmacy) => {
     if (!currentUserLocation) return;
     getDirections(
-      `${currentUserLocation?.latitude},${currentUserLocation?.longitude}`,
-      `${pharmacy.lat},${pharmacy.lng}`
+      `${currentUserLocation?.longitude},${currentUserLocation?.latitude}`,
+      `${pharmacy.lng},${pharmacy.lat}`
     ).then((coords) => setCoords(coords as LatLng[]));
 
     setPharmacies([pharmacy]);

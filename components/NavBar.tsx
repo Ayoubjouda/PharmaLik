@@ -17,7 +17,7 @@ const NavBar = () => {
         size={'icon'}
         text={'icon'}
         onPress={setIsMenuOpen}
-        className="absolute z-30 top-14 left-4"
+        className="absolute z-30 bg-white shadow top-14 left-4"
       >
         {!isMenuOpen ? (
           <Feather

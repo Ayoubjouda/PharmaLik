@@ -20,8 +20,13 @@ interface BottomModalProps {
 const BottomModal = forwardRef<BottomSheetModal, BottomModalProps>(
   (props, ref) => {
     const snapPoints = useMemo(() => ['25%', '35%'], []);
-    const [tripStarted, setTripStarted] = useState<boolean>(false);
-    const { selectedPharmacy, setSelectedPharmacy, setCoords } = useAppStore();
+    const {
+      selectedPharmacy,
+      setSelectedPharmacy,
+      setCoords,
+      isTripStarted,
+      setIsTripStarted,
+    } = useAppStore();
     const queryClient = useQueryClient();
     const handleSheetChanges = useCallback((index: number) => {
       console.log('handleSheetChanges', index);
@@ -33,7 +38,7 @@ const BottomModal = forwardRef<BottomSheetModal, BottomModalProps>(
         ref.current.close();
         props.handleOpenModalSheet();
       }
-      setTripStarted(false);
+      setIsTripStarted(false);
       setSelectedPharmacy(null);
       setCoords([]);
       queryClient.invalidateQueries({ queryKey: ['pharmacies'] });
@@ -55,7 +60,7 @@ const BottomModal = forwardRef<BottomSheetModal, BottomModalProps>(
               size={'icon'}
               text={'icon'}
               onPress={handleClose}
-              className="absolute z-30 w-8 h-8 p-1 top-3 right-8"
+              className="absolute z-30 w-8 h-8 p-1 top-3 right-5"
             >
               <Feather
                 name="x"
@@ -64,7 +69,7 @@ const BottomModal = forwardRef<BottomSheetModal, BottomModalProps>(
               />
             </Button>
             <View className="w-[361px]  bg-white rounded-xl shadow flex-col justify-start items-start inline-flex ">
-              {!tripStarted ? (
+              {!isTripStarted ? (
                 <View className="w-full px-4 py-4 gap-y-3">
                   <View className="">
                     <View className="flex-row justify-between w-full">
@@ -103,7 +108,7 @@ const BottomModal = forwardRef<BottomSheetModal, BottomModalProps>(
                 <View className="w-full px-4 py-4 gap-y-3">
                   <View className="">
                     <View className="flex-row justify-between w-full">
-                      <Text className="text-2xl font-bold leading-7 text-black">
+                      <Text className="text-2xl font-bold leading-7 text-black max-w-[90%]">
                         You’re on your way to {selectedPharmacy?.title}
                       </Text>
                     </View>
@@ -138,9 +143,9 @@ const BottomModal = forwardRef<BottomSheetModal, BottomModalProps>(
             <Button
               variant={'primary'}
               text={'primary'}
-              label={tripStarted ? 'Cancel Trip' : 'Go to pharmacy'}
-              onPress={() => setTripStarted(!tripStarted)}
-              className={cn({ 'bg-red-500 ': tripStarted })}
+              label={isTripStarted ? 'Cancel Trip' : 'Go to pharmacy'}
+              onPress={() => setIsTripStarted(!isTripStarted)}
+              className={cn({ 'bg-red-500 ': isTripStarted })}
             />
           </View>
         </BottomSheetModal>
