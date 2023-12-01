@@ -13,7 +13,7 @@ import {
   QuestionMarkIcon,
   SupportAgentIcon,
 } from 'assets/icons';
-import useAppStore from 'zustand/store';
+import useAppStore from 'services/zustand/store';
 import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
 import { Link } from 'expo-router';
 type MenuProps = ViewProps;
@@ -30,7 +30,7 @@ const Menu: FC<MenuProps> = () => {
       contentContainerStyle={{ alignItems: 'center', flex: 1 }}
     >
       <Animated.View
-        key={Math.random()}
+        key={'nav'}
         entering={FadeIn.duration(400)}
         exiting={FadeOut.duration(400)}
         className="flex-1 w-screen h-screen "

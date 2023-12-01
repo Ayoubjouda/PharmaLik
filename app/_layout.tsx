@@ -1,9 +1,19 @@
 import { Stack } from 'expo-router';
 import { NativeWindStyleSheet } from 'nativewind';
 import { useFonts } from 'expo-font';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import {
+  QueryCache,
+  QueryClient,
+  QueryClientProvider,
+} from '@tanstack/react-query';
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  queryCache: new QueryCache({
+    onError: (error) => {
+      console.log(error);
+    },
+  }),
+});
 
 export default function HomeLayout() {
   NativeWindStyleSheet.setOutput({

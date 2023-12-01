@@ -13,6 +13,7 @@ export default function Page() {
       console.log('Permission to access location was denied');
       return;
     }
+    router.push('/Home');
   };
 
   return (

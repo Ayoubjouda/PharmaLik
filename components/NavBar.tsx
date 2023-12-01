@@ -4,7 +4,7 @@ import { EmergencyIcon } from 'assets/icons';
 
 import { useState } from 'react';
 import { Feather } from '@expo/vector-icons';
-import useAppStore from 'zustand/store';
+import useAppStore from 'services/zustand/store';
 
 const NavBar = () => {
   const [isModalOpen, setisModalOpen] = useState<boolean>(false);

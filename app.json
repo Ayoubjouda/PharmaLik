@@ -1,9 +1,11 @@
 {
   "expo": {
-    "scheme": "pharmaLik",
+    "name": "pharmaLik",
+    "slug": "pharmaLik",
     "version": "0.1.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
+    "scheme": "pharmaLik",
     "splash": {
       "image": "./assets/splash.png",
       "backgroundColor": "#0B7B56",
@@ -12,8 +14,6 @@
     "web": {
       "bundler": "metro"
     },
-    "name": "pharmaLik",
-    "slug": "pharmaLik",
     "plugins": [
       "expo-router",
       [
@@ -21,7 +21,13 @@
         {
           "locationAlwaysAndWhenInUsePermission": "Allow PharmaLik to use your location."
         }
-      ]
+      ],
+      "expo-localization",
+      ["expo-build-properties", {
+        "android": {
+          "usesCleartextTraffic": true
+        }
+      }]
     ],
     "ios": {
       "supportsTablet": true,
@@ -39,7 +45,12 @@
       }
     },
     "android": {
-      "package": "com.example.PharmaLik"
+      "package": "com.example.PharmaLik",
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyB5h6XQA1Idx4fZ6ZsSbJaK3vPIdqGhRU4"
+        }
+      }
     }
   }
 }

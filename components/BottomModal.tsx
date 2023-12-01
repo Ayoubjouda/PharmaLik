@@ -1,7 +1,7 @@
 import Button from './Button';
 
 import { useMemo, useCallback, forwardRef, useState } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, Dimensions } from 'react-native';
 import { PhoneIcon, DistanceIcon, ClockIcon } from 'assets/icons';
 import {
   BottomSheetModal,
@@ -9,7 +9,7 @@ import {
 } from '@gorhom/bottom-sheet';
 import { SvgXml } from 'react-native-svg';
 import { Feather } from '@expo/vector-icons';
-import useAppStore from 'zustand/store';
+import useAppStore from 'services/zustand/store';
 import { useQueryClient } from '@tanstack/react-query';
 import { cn } from 'lib/utils';
 
@@ -19,7 +19,10 @@ interface BottomModalProps {
 
 const BottomModal = forwardRef<BottomSheetModal, BottomModalProps>(
   (props, ref) => {
-    const snapPoints = useMemo(() => ['25%', '35%'], []);
+    const { width: windowWidth, height: windowHeight } =
+      Dimensions.get('window');
+
+    const snapPoints = useMemo(() => ['25%', '40%'], []);
     const {
       selectedPharmacy,
       setSelectedPharmacy,
@@ -53,22 +56,26 @@ const BottomModal = forwardRef<BottomSheetModal, BottomModalProps>(
           onChange={handleSheetChanges}
           backgroundStyle={{ backgroundColor: 'transparent' }}
           handleComponent={() => null}
+          style={{
+            maxWidth: windowWidth,
+            width: '100%',
+          }}
         >
-          <View className="relative items-center gap-10 ">
-            <Button
-              variant={'icon'}
-              size={'icon'}
-              text={'icon'}
-              onPress={handleClose}
-              className="absolute z-30 w-8 h-8 p-1 top-3 right-5"
-            >
-              <Feather
-                name="x"
-                size={24}
-                color="black"
-              />
-            </Button>
-            <View className="w-[361px]  bg-white rounded-xl shadow flex-col justify-start items-start inline-flex ">
+          <View className="absolute flex flex-col items-center justify-center w-full mx-auto gap-y-10 bottom-8 h-fit">
+            <View className="w-[361px]  bg-white rounded-xl shadow flex-col justify-start items-start inline-flex relative ">
+              <Button
+                variant={'icon'}
+                size={'icon'}
+                text={'icon'}
+                onPress={handleClose}
+                className="absolute z-30 w-8 h-8 p-1 top-3 right-5"
+              >
+                <Feather
+                  name="x"
+                  size={24}
+                  color="black"
+                />
+              </Button>
               {!isTripStarted ? (
                 <View className="w-full px-4 py-4 gap-y-3">
                   <View className="">
