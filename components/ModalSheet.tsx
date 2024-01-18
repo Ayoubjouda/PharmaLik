@@ -1,29 +1,31 @@
 import BottomSheet from '@gorhom/bottom-sheet';
-import { forwardRef, useCallback, useMemo, useRef, useState } from 'react';
-import { Keyboard, View, Text } from 'react-native';
-import Input from './Input';
-import { SearchIcon } from 'assets/icons';
-import { i18n } from '../services/i18n/i18next';
-import axios from 'axios';
-import { MapPin } from 'lucide-react-native';
 import { FlashList } from '@shopify/flash-list';
+import { SearchIcon } from 'assets/icons';
+import axios from 'axios';
+import { useGetPharmacies, useSelectedPharmacies } from 'hooks/usePharmacie';
+import { MapPin } from 'lucide-react-native';
+import { forwardRef, useCallback, useMemo, useState } from 'react';
+import { Keyboard, Text, TouchableOpacity, View } from 'react-native';
 import { PanGestureHandler, ScrollView } from 'react-native-gesture-handler';
-import { useDebounce } from '@uidotdev/usehooks';
+import useAppStore from 'services/zustand/store';
+import { i18n } from '../services/i18n/i18next';
+import Input from './Input';
 const ModalSheet = forwardRef<BottomSheet>((props, ref) => {
   const [Adresses, setAdresses] = useState([]);
+  const { selectedAdress, setSelectedAdress } = useAppStore();
   const handleSheetChanges = useCallback((index: number) => {
     if (index === 0) {
       Keyboard.dismiss();
     }
   }, []);
+  const { getSelectedPharmacies } = useSelectedPharmacies();
+
   const snapPoints = useMemo(() => ['25%', '85%'], []);
   const getdAdress = async (text: string) => {
     axios
       .get(`http://141.145.200.78:2322/api?q=${text}`)
       .then((resp) => setAdresses(resp.data.features));
   };
-
-  const panRef = useRef(null);
 
   return (
     <BottomSheet
@@ -65,15 +67,27 @@ const ModalSheet = forwardRef<BottomSheet>((props, ref) => {
                 estimatedItemSize={20}
                 renderItem={({ item }) => {
                   return (
-                    <View
-                      key={item.properties.name}
+                    <TouchableOpacity
+                      onPress={() => {
+                        setSelectedAdress({
+                          latitude: item?.geometry?.coordinates[1],
+                          longitude: item?.geometry?.coordinates[0],
+                        });
+                        if (typeof ref === 'function') return;
+                        if (ref && ref.current) {
+                          ref.current?.snapToIndex(0);
+                          handleSheetChanges(0);
+                        }
+                        getSelectedPharmacies(selectedAdress);
+                      }}
+                      key={item?.properties?.name}
                       className="flex flex-row items-center px-3 py-4 gap-x-2"
                     >
                       <MapPin color="black" />
                       <Text className="text-xl font-bold text-neutral-950 font-SatoshiBold">
-                        {item.properties.name}
+                        {item?.properties?.name}
                       </Text>
-                    </View>
+                    </TouchableOpacity>
                   );
                 }}
               />

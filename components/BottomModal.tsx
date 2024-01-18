@@ -1,6 +1,6 @@
 import Button from './Button';
 
-import { useMemo, useCallback, forwardRef, useState } from 'react';
+import { useMemo, useCallback, forwardRef } from 'react';
 import { View, Text, TouchableOpacity, Dimensions } from 'react-native';
 import { PhoneIcon, DistanceIcon, ClockIcon } from 'assets/icons';
 import {
@@ -12,6 +12,8 @@ import { Feather } from '@expo/vector-icons';
 import useAppStore from 'services/zustand/store';
 import { useQueryClient } from '@tanstack/react-query';
 import { cn } from 'lib/utils';
+import { useGetPharmacies, useSelectedPharmacies } from 'hooks/usePharmacie';
+import { LatLng } from 'react-native-maps';
 
 interface BottomModalProps {
   handleOpenModalSheet: () => void;
@@ -19,10 +21,10 @@ interface BottomModalProps {
 
 const BottomModal = forwardRef<BottomSheetModal, BottomModalProps>(
   (props, ref) => {
-    const { width: windowWidth, height: windowHeight } =
-      Dimensions.get('window');
-
+    const { width: windowWidth } = Dimensions.get('window');
+    const { getSelectedPharmacies } = useSelectedPharmacies();
     const snapPoints = useMemo(() => ['25%', '40%'], []);
+    const queryClient = useQueryClient();
     const {
       selectedPharmacy,
       setSelectedPharmacy,
@@ -30,7 +32,6 @@ const BottomModal = forwardRef<BottomSheetModal, BottomModalProps>(
       isTripStarted,
       setIsTripStarted,
     } = useAppStore();
-    const queryClient = useQueryClient();
     const handleSheetChanges = useCallback((index: number) => {
       console.log('handleSheetChanges', index);
     }, []);
@@ -44,7 +45,7 @@ const BottomModal = forwardRef<BottomSheetModal, BottomModalProps>(
       setIsTripStarted(false);
       setSelectedPharmacy(null);
       setCoords([]);
-      queryClient.invalidateQueries({ queryKey: ['pharmacies'] });
+      queryClient.invalidateQueries(['pharmacies']);
     };
 
     return (
@@ -62,7 +63,7 @@ const BottomModal = forwardRef<BottomSheetModal, BottomModalProps>(
           }}
         >
           <View className="absolute flex flex-col items-center justify-center w-full mx-auto gap-y-10 bottom-8 h-fit">
-            <View className="w-[361px]  bg-white rounded-xl shadow flex-col justify-start items-start inline-flex relative ">
+            <View className="relative inline-flex flex-col items-start justify-start mx-3 bg-white shadow  max-w-screen rounded-xl">
               <Button
                 variant={'icon'}
                 size={'icon'}

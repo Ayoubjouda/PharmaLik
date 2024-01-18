@@ -9,7 +9,7 @@ export default function Page() {
     setLoading(true);
     const fetchFirstTimeOpen = async () => {
       const result = await AsyncStorage.getItem('isFirstTimeOpen');
-      if (result === null) setIsFirstTimeLoad(true);
+      if (result === null || result === 'true') setIsFirstTimeLoad(true);
       setLoading(false);
     };
 

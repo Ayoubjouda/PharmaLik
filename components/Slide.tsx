@@ -11,7 +11,7 @@ type SlideData = {
 const Slide = ({ data }: { data: SlideData }) => {
   const { width: windowWidth, height: windowHeight } = Dimensions.get('window');
   return (
-    <View className={`max-w-[100vw] overflow-hidden px-10 mt-20`}>
+    <View className={`w-screen overflow-hidden px-10 mt-20`}>
       <Image
         source={{ uri: data.image }}
         style={{

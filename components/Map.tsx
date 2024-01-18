@@ -1,4 +1,4 @@
-import { FC, useEffect, useRef, useState } from 'react';
+import { FC, useEffect, useRef } from 'react';
 import {
   ActivityIndicator,
   Image,
@@ -15,134 +15,61 @@ import {
 } from 'react-native-maps';
 
 import BottomSheet, { BottomSheetModal } from '@gorhom/bottom-sheet';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
 import MarkerIcon from 'assets/images/Marker.png';
-import axios from 'axios';
-import * as Location from 'expo-location';
+import { useDirection } from 'hooks/useDirections';
+import { useLocation } from 'hooks/useLocation';
+import { useGetPharmacies } from 'hooks/usePharmacie';
 import MapView from 'react-native-map-clustering';
 import useAppStore from 'services/zustand/store';
 import BottomModal from './BottomModal';
 import ModalSheet from './ModalSheet';
+import useMapNavigation from 'hooks/useMapNavigation';
 type MapProps = ViewProps;
-type Coords = {
-  latitude: number | undefined;
-  longitude: number | undefined;
-};
 
 const Map: FC<MapProps> = () => {
   const modalSheetRef = useRef<BottomSheet>(null);
   const bottomModalRef = useRef<BottomSheetModal>(null);
-  const queryClient = useQueryClient();
-  const [currentUserLocation, setLocation] = useState<LatLng>();
+  const { getDirections } = useDirection();
   const _mapView = useRef<MapView | null>(null);
   const {
     pharmacies,
     setPharmacies,
     setSelectedPharmacy,
     coords,
-    setCoords,
-    isTripStarted,
-    selectedPharmacy,
+    currentUserLocation,
+    selectedAdress,
   } = useAppStore();
 
-  const getPharmacies = async (useLocation: LatLng) => {
-    try {
-      const response = await axios.get(
-        `https://saydalia.ma/api/siteweb_api.php?origin=${useLocation?.latitude}%2C${useLocation?.longitude}&api_key=808RBAI77YIO2HZQ9WYSJKHK9WDEVVXXERFB77CALCU6U0`
-      );
-      return response.data;
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const getPharmacie = async (userLocation: LatLng) => {
-    return useQuery<Pharmacy[], Error>(
-      ['pharmacies', userLocation],
-      () => getPharmacies(userLocation),
-      {
-        onSuccess: (res) => {
-          if (!res) return;
-          setPharmacies([
-            ...pharmacies,
-            ...(res?.filter(
-              (item: Pharmacy) => item.id !== pharmacies[0]?.id
-            ) as Pharmacy[]),
-          ]);
-        },
-      }
-    );
-  };
-  getPharmacie(currentUserLocation as LatLng);
-  useEffect(() => {
-    if (!currentUserLocation) return;
-    queryClient.invalidateQueries(['pharmacies']);
-  }, [currentUserLocation]);
-
-  useEffect(() => {
-    let intervalId = null;
-
-    // Function to make the request
-    const startTracking = () => {
-      // Check if the condition is still true
-      if (isTripStarted && selectedPharmacy) {
-        if (!currentUserLocation) return;
-        getDirections(
-          `${currentUserLocation?.longitude},${currentUserLocation?.latitude}`,
-          `${selectedPharmacy.lng},${selectedPharmacy.lat}`
-        ).then((coords) => setCoords(coords as LatLng[]));
-        console.log('tracking');
-      } else {
-        // If the condition becomes false, clear the interval
-        clearInterval(intervalId);
-      }
-    };
-
-    // Set up the interval to make the request every second
-    intervalId = setInterval(startTracking, 1000);
-
-    // Clean up the interval when the component unmounts or when the condition changes
-    return () => {
-      clearInterval(intervalId);
-    };
-  }, [isTripStarted]);
+  const { data } = useGetPharmacies(currentUserLocation as LatLng);
+  const { getLocationAsync } = useLocation();
 
   useEffect(() => {
     (async () => {
-      const { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== 'granted') {
-        return;
-      }
-      const location = await Location.getCurrentPositionAsync({
-        accuracy: Location.Accuracy.Highest,
-        distanceInterval: 10000,
-        timeInterval: 5000,
-      });
-      setLocation(location.coords);
+      await getLocationAsync();
     })();
   }, []);
 
-  const getDirections = async (startLoc: string, destinationLoc: string) => {
-    try {
-      const resp = await axios.get(
-        `http://141.145.200.78:8001/pharmacy/direction`,
-        {
-          params: { start: startLoc, dest: destinationLoc },
-        }
-      );
+  useEffect(() => {
+    if (!_mapView.current) return;
 
-      return resp.data as Coords[];
-    } catch (error) {
-      return error;
-    }
-  };
+    // @ts-expect-error problem with the types of MapView
+
+    _mapView.current?.animateToRegion(
+      {
+        latitude: selectedAdress.latitude,
+        longitude: selectedAdress.longitude,
+        latitudeDelta: 0.01,
+        longitudeDelta: 0.02,
+      },
+      300
+    );
+  }, [selectedAdress]);
+
+  useMapNavigation();
+
   const handleGetDirections = (pharmacy: Pharmacy) => {
-    if (!currentUserLocation) return;
-    getDirections(
-      `${currentUserLocation?.longitude},${currentUserLocation?.latitude}`,
-      `${pharmacy.lng},${pharmacy.lat}`
-    ).then((coords) => setCoords(coords as LatLng[]));
-
+    if (!currentUserLocation || !pharmacy) return;
+    getDirections(currentUserLocation, pharmacy);
     setPharmacies([pharmacy]);
     if (!_mapView.current) return;
 
@@ -158,9 +85,9 @@ const Map: FC<MapProps> = () => {
       1000
     );
   };
-  if (!currentUserLocation)
+  if (!currentUserLocation || !data)
     return (
-      <View className="items-center justify-center flex-1">
+      <View className="items-center justify-center flex-1 bg-white">
         <ActivityIndicator />
       </View>
     );
@@ -169,7 +96,6 @@ const Map: FC<MapProps> = () => {
     latitudeDelta: 0.01,
     longitudeDelta: 0.02,
   };
-
   return (
     <View className="flex-1">
       <MapView
@@ -186,39 +112,38 @@ const Map: FC<MapProps> = () => {
         clusterColor="#fff"
         clusterTextColor="#0E9C6D"
       >
-        {pharmacies.length > 0
-          ? pharmacies.map((pharmacy: Pharmacy) => (
-              <Marker
-                key={pharmacy.id}
-                coordinate={{
-                  latitude: pharmacy.lat,
-                  longitude: pharmacy.lng,
+        {!!pharmacies.length &&
+          pharmacies.map((pharmacy: Pharmacy) => (
+            <Marker
+              key={pharmacy.id}
+              coordinate={{
+                latitude: pharmacy.lat,
+                longitude: pharmacy.lng,
+              }}
+              onPress={() => {
+                modalSheetRef.current?.close();
+                bottomModalRef.current?.present();
+                setSelectedPharmacy(pharmacy);
+                handleGetDirections(pharmacy);
+              }}
+            >
+              <Image
+                source={MarkerIcon}
+                style={{
+                  width: 30,
+                  height: 30,
                 }}
-                onPress={() => {
-                  modalSheetRef.current?.close();
-                  bottomModalRef.current?.present();
-                  setSelectedPharmacy(pharmacy);
-                  handleGetDirections(pharmacy);
-                }}
-              >
-                <Image
-                  source={MarkerIcon}
-                  style={{
-                    width: 30,
-                    height: 30,
-                  }}
-                />
-              </Marker>
-            ))
-          : null}
+              />
+            </Marker>
+          ))}
 
-        {coords.length > 0 && (
+        {coords?.length > 0 ? (
           <Polyline
             coordinates={coords}
             fillColor="#44C89C"
             strokeWidth={6}
           />
-        )}
+        ) : null}
       </MapView>
       <ModalSheet ref={modalSheetRef} />
       <BottomModal

@@ -1,12 +1,12 @@
-import { View, Text } from 'react-native';
-import Button from 'components/Button';
-import { SvgXml } from 'react-native-svg';
-import { router, useRouter } from 'expo-router';
 import { AntDesign } from '@expo/vector-icons';
-import { FlagAR, FlagEN, FlagFr } from 'assets/icons';
-import { useEffect, useState } from 'react';
-import { i18n } from 'services/i18n/i18next';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { FlagAR, FlagEN, FlagFr } from 'assets/icons';
+import Button from 'components/Button';
+import { useRouter } from 'expo-router';
+import { useEffect, useState } from 'react';
+import { Text, View } from 'react-native';
+import { SvgXml } from 'react-native-svg';
+import { i18n } from 'services/i18n/i18next';
 
 type Language = {
   id: number;
@@ -51,7 +51,7 @@ export default function Page() {
     setLoading(true);
     const fetchFirstTimeOpen = async () => {
       const result = await AsyncStorage.getItem('isFirstTimeOpen');
-      if (result === null) setIsFirstTimeLoad(true);
+      if (result === null || result === 'true') setIsFirstTimeLoad(true);
       setLoading(false);
     };
 
@@ -127,7 +127,7 @@ export default function Page() {
         <View className="gap-3 mt-6">
           {language?.map((item) => (
             <Button
-              variant="primary"
+              variant="default"
               text={'icon'}
               size={'lg'}
               className={`justify-between bg-neutral-5  border ${

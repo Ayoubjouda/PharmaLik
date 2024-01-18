@@ -16,11 +16,13 @@
     "noEmit": true,
     "baseUrl": ".",
     "paths": {
+      "@":["./"],
       "components": ["./components"],
       "lib": ["./lib"],
-      "store": ["services/zustand"]
+      "store": ["services/zustand"],
+      "hooks": ["./hooks"],
     },
   },
-  "include": ["./app/**/*", "./app.d.ts", "components", "assets", "types", "lib"],
+  "include": ["./app/**/*", "./app.d.ts", "components", "assets", "types", "lib","hooks"],
   "exclude": ["node_modules", "build"]
 }

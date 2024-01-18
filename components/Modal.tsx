@@ -28,7 +28,7 @@ const Modal: FC<ModalProps> = ({
       exiting={FadeOut.duration(300)}
     >
       <View
-        className="w-[361px] h-auto pt-6  bg-white rounded-xl flex-col top-[20%] mx-auto"
+        className="max-w-[361px] md:max-w-lg w-full h-auto pt-6  bg-white rounded-xl flex-col top-[20%] mx-auto"
         {...props}
       >
         {/* Modal Header */}
@@ -38,7 +38,7 @@ const Modal: FC<ModalProps> = ({
               {title}
             </Text>
             <Button
-              variant={'icon'}
+              variant={'default'}
               text={'icon'}
               size={'icon'}
               onPress={setIsOpen}

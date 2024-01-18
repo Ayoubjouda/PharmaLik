@@ -55,8 +55,8 @@ const EmergencyModal: FC<EmergencyModalProps> = ({
     >
       {EMERGENCY_NUMBERS.map((el) => (
         <Button
-          variant={'primary'}
-          className="justify-between gap-1 px-2 py-4 bg-neutral-5"
+          variant={'default'}
+          className="justify-between w-full gap-1 px-2 py-4 bg-neutral-5"
           size={'lg'}
           text={'icon'}
           key={el.name}

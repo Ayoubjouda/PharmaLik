@@ -17,8 +17,8 @@ export default function Page() {
   };
 
   return (
-    <View className="flex-1 bg-white py-[85] px-4 justify-between items-center">
-      <View>
+    <View className="flex-1 bg-white w-screen py-[85] px-4 justify-between items-center">
+      <View className="w-full">
         <Button
           variant="icon"
           text={'icon'}
@@ -36,7 +36,7 @@ export default function Page() {
           <Text className="text-neutral-950 text-[32px] font-bold leading-10">
             Allow location access
           </Text>
-          <Text className="mt-2 text-lg leading-normal text-center font-SatoshiRegular text-neutral-500">
+          <Text className="max-w-lg mt-2 text-lg leading-normal text-center font-SatoshiRegular text-neutral-500">
             Lorem ipsum dolor sit amet consectetur. Tempor placerat quisque
             adipiscing cursus at porttitor egestas in rhoncus. Nibh sed dictum
             mattis tristique.

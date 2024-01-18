@@ -7,7 +7,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 type indexProps = ViewProps;
 
 const index: FC<indexProps> = () => {
-  AsyncStorage.setItem('isFirstTimeOpen', 'true');
+  AsyncStorage.setItem('isFirstTimeOpen', 'false');
 
   useEffect(() => {
     (async () => {

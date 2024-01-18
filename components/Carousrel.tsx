@@ -9,6 +9,8 @@ import {
 import Slide from './Slide';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Link } from 'expo-router';
+import Button from './Button';
+import { Check } from 'lucide-react-native';
 
 const slideList = [
   {
@@ -98,17 +100,21 @@ const Carousrel = () => {
         }}
       />
       <View className="absolute flex items-center justify-center w-screen bottom-8">
-        <Pagination index={index}></Pagination>
         {index === 2 ? (
           <Link
             href="/settings/languageScreen"
             asChild
           >
-            <TouchableOpacity>
-              <Text>Done</Text>
-            </TouchableOpacity>
+            <Button
+              variant="primary"
+              size="lg"
+              label="Get Started"
+              text={'primary'}
+            ></Button>
           </Link>
-        ) : null}
+        ) : (
+          <Pagination index={index}></Pagination>
+        )}
       </View>
     </View>
   );

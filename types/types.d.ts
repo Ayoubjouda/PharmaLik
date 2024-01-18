@@ -11,3 +11,7 @@ type Pharmacy = {
   distance: number;
   marker: string;
 };
+type Coords = {
+  latitude: number | undefined;
+  longitude: number | undefined;
+};
